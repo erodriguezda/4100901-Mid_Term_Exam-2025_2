@@ -17,8 +17,14 @@ static uint32_t led_on_time = 0;
 
 void room_control_app_init(void)
 {
+   
+    uart_send_string("Controlador de Sala v2.0\r\n");
+    uart_send_string("- Lámpara: 20%\r\n");
+    uart_send_string("- Puerta: Cerrada\r\n");
+
     // Inicializar PWM al duty cycle inicial (estado IDLE -> LED apagado)
     tim3_ch1_pwm_set_duty_cycle(PWM_INITIAL_DUTY);
+    
 }
 
 void room_control_on_button_press(void)
@@ -81,6 +87,8 @@ void room_control_on_uart_receive(char received_char)
             tim3_ch1_pwm_set_duty_cycle(50);
             uart_send_string("PWM: 50%\r\n");
             break;
+        
+
         default:
             uart_send_string("Comando desconocido: ");
             uart_send(received_char);
